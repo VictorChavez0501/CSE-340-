@@ -1,34 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include partials/head %>
+  <% include ./partials/head %>
   <body>
-    <% include partials/header %>
-    <% include partials/nav %>
+    <div id="wrapper">
 
-    <main class="home">
-      <section class="hero">
-        <img src="/images/site/own_today.png" alt="Own Today" class="hero-img" />
-        <div class="hero-content">
-          <h1>Welcome to CSE Motors</h1>
-          <p>Your trusted vehicle dealership.</p>
-        </div>
-      </section>
+      <% include ./partials/header %>
+      <% include ./partials/nav %>
 
-      <section class="features">
-        <article class="feature">
-          <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Sticker" />
-          <h3>Bumper Stickers</h3>
-        </article>
+      <main>
 
-        <article class="feature">
-          <img src="/images/upgrades/hub-cap.jpg" alt="Hub Cap" />
-          <h3>Hub Caps</h3>
-        </article>
+        <!-- Welcome -->
+        <h1>Welcome to CSE Motors!</h1>
 
-        <!-- Agrega más features según la maqueta -->
-      </section>
-    </main>
+        <!-- Hero Section -->
+        <section class="hero">
+          <div class="hero-text">
+            <h2>DMC Delorean</h2>
+            <ul>
+              <li>3 Cup holders</li>
+              <li>Superman doors</li>
+              <li>Fuzzy dice!</li>
+            </ul>
+            <a href="#" class="btn-own">
+              <img src="/images/site/own_today.png" alt="Own Today Button">
+            </a>
+          </div>
 
-    <% include partials/footer %>
+          <div class="hero-image">
+            <img src="/images/vehicles/delorean.jpg" 
+                 alt="Picture of the DMC Delorean">
+          </div>
+        </section>
+
+        <!-- Reviews -->
+        <section class="reviews">
+          <h2>DMC Delorean Reviews</h2>
+          <ul>
+            <li>"So fast it's almost like traveling in time." (4/5)</li>
+            <li>"Coolest ride on the road." (4/5)</li>
+            <li>"I'm feeling McFly!" (5/5)</li>
+            <li>"The most futuristic ride of our day." (4.5/5)</li>
+            <li>"80's livin and I love it!" (5/5)</li>
+          </ul>
+        </section>
+
+        <!-- Upgrades -->
+        <section class="upgrades">
+          <h2>Delorean Upgrades</h2>
+
+          <div class="upgrade-grid">
+
+            <div class="upgrade-item">
+              <img src="/images/upgrades/flux-cap.png" 
+                   alt="Flux Capacitor">
+              <a href="#">Flux Capacitor</a>
+            </div>
+
+            <div class="upgrade-item">
+              <img src="/images/upgrades/flame.png" 
+                   alt="Flame Decals">
+              <a href="#">Flame Decals</a>
+            </div>
+
+            <div class="upgrade-item">
+              <img src="/images/upgrades/bumper_sticker.jpg" 
+                   alt="Bumper Stickers">
+              <a href="#">Bumper Stickers</a>
+            </div>
+
+            <div class="upgrade-item">
+              <img src="/images/upgrades/hub-cap.jpg" 
+                   alt="Hub Caps">
+              <a href="#">Hub Caps</a>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+      <% include ./partials/footer %>
+
+    </div>
   </body>
 </html>
