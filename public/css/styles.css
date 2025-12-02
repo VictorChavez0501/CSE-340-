@@ -1,169 +1,201 @@
-/* ----------------------------------------
-   RESET & BASE STYLES
----------------------------------------- */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* -------------------------
+   VARIABLES, RESET & BASE
+--------------------------*/
+:root {
+  --font-main: 'Helvetica Neue', Arial, sans-serif;
+  --bg: #ffffff;
+  --text: #222;
+  --primary: #005f99;
+  --primary-dark: #003f66;
+  --border-light: #dadada;
+
+  --max-width: 1200px;
 }
 
-:root {
-  --primary: #0b5ec2;
-  --primary-dark: #084a96;
-
-  --bg: #ffffff;
-  --surface: #f4f7fa;
-  --text: #1e1e1e;
-  --text-light: #555;
-
-  --radius: 12px;
-  --max-width: 1100px;
-
-  font-family: 'Inter', system-ui, sans-serif;
+* {
+  box-sizing: border-box;
 }
 
 body {
+  margin: 0;
   background: var(--bg);
+  font-family: var(--font-main);
   color: var(--text);
   line-height: 1.5;
-  padding-bottom: 3rem;
 }
 
-/* ----------------------------------------
-   HEADER
----------------------------------------- */
-header {
-  background: var(--primary);
-  color: white;
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; display: block; }
+
+/* -------------------------
+   LAYOUT WRAPPER
+--------------------------*/
+.wrapper {
+  max-width: var(--max-width);
+  margin: 0 auto;
   padding: 1rem;
-  text-align: center;
+}
+
+/* -------------------------
+   HEADER
+--------------------------*/
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
 }
 
 header h1 {
-  font-weight: 600;
   font-size: 1.6rem;
+  margin: 0;
 }
 
-/* ----------------------------------------
+header small {
+  font-size: 0.9rem;
+}
+
+/* -------------------------
    NAVIGATION
----------------------------------------- */
+--------------------------*/
 nav {
-  background: var(--surface);
-  padding: 0.8rem;
+  background: #222;
+  padding: 0.5rem;
 }
 
 nav ul {
+  margin: 0;
+  padding: 0;
   list-style: none;
   display: flex;
-  justify-content: center;
   gap: 1rem;
 }
 
 nav a {
-  text-decoration: none;
-  color: var(--primary-dark);
-  font-weight: 600;
+  color: white;
+  font-size: 0.9rem;
 }
 
-nav a:hover {
-  color: var(--primary);
-}
-
-/* ----------------------------------------
-   HERO SECTION (HOME)
----------------------------------------- */
+/* -------------------------
+   HERO SECTION
+--------------------------*/
 .hero {
-  padding: 1rem;
-  text-align: center;
+  margin-top: 1.5rem;
 }
 
-.hero img {
-  width: 100%;
-  border-radius: var(--radius);
+.hero-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
 }
 
-.hero-text {
-  margin-top: 1rem;
-}
-
-.hero-text h2 {
-  font-size: 1.6rem;
-  font-weight: 700;
-}
-
-.hero-text p {
-  margin-top: 0.5rem;
-  color: var(--text-light);
-}
-
-/* ----------------------------------------
-   FEATURE CARDS
----------------------------------------- */
-.features {
-  padding: 1rem;
-  display: grid;
+.hero-box {
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
-.feature-card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  padding: 1rem;
-  text-align: center;
+.hero-info h2 {
+  font-size: 1.2rem;
+  margin: 0 0 0.3rem;
+  color: var(--primary-dark);
 }
 
-.feature-card img {
-  width: 100%;
-  border-radius: var(--radius);
+.hero-info p {
+  margin: 0.2rem 0;
 }
 
-.feature-card h3 {
-  margin-top: 0.6rem;
-  font-size: 1.3rem;
+.hero-info .btn {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  margin-top: 0.5rem;
+  border-radius: 5px;
+}
+.btn:hover {
+  background: var(--primary-dark);
 }
 
-/* ----------------------------------------
-   FOOTER
----------------------------------------- */
-footer {
+/* -------------------------
+   REVIEWS
+--------------------------*/
+.reviews {
   margin-top: 2rem;
-  padding: 1rem;
+}
+
+.reviews h2 {
+  font-size: 1.4rem;
+}
+
+.reviews ul {
+  padding-left: 1.2rem;
+}
+
+/* -------------------------
+   UPGRADES
+--------------------------*/
+.upgrades {
+  margin-top: 2rem;
+}
+
+.upgrades h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.upgrade-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
   text-align: center;
-  color: var(--text-light);
 }
 
-/* ----------------------------------------
+.upgrade-grid img {
+  width: 100px;
+  margin: 0 auto;
+}
+
+/* -------------------------
+   FOOTER
+--------------------------*/
+footer {
+  margin-top: 3rem;
+  padding: 1rem 0;
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border-light);
+}
+
+/* -------------------------
    DESKTOP BREAKPOINT
----------------------------------------- */
+--------------------------*/
 @media (min-width: 900px) {
-  
   nav ul {
-    justify-content: flex-start;
-    max-width: var(--max-width);
-    margin: auto;
+    justify-content: center;
   }
 
-  .hero {
-    display: flex;
-    gap: 2rem;
-    max-width: var(--max-width);
-    margin: auto;
+  .hero-box {
+    flex-direction: row;
     align-items: center;
-    text-align: left;
   }
 
-  .hero img {
-    width: 50%;
+  .hero-info {
+    max-width: 40%;
   }
 
-  .hero-text {
-    width: 50%;
+  .hero-img {
+    max-width: 450px;
   }
 
-  .features {
-    max-width: var(--max-width);
-    margin: auto;
-    grid-template-columns: repeat(3, 1fr);
+  .reviews-upgrades {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 2rem;
+  }
+
+  .upgrade-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
-
