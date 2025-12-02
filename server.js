@@ -1,40 +1,34 @@
-/* ******************************************
- * Primary server file
- *******************************************/
+/* ***********************
+ * Require Statements
+ *************************/
 const express = require("express")
 const env = require("dotenv").config()
-const path = require("path")
 const app = express()
+const static = require("./routes/static")
+const homeRoute = require("./routes/home")   // ➜ NUEVO
 
-/* ***************
+/* ***********************
  * View Engine
- *****************/
+ *************************/
 app.set("view engine", "ejs")
-app.set("views", path.join(__dirname, "views"))
+app.set("views", "./views")
 
-/* ***************
- * Public folder
- *****************/
-app.use(express.static("public"))
-
-/* ***************
+/* ***********************
  * Routes
- *****************/
-const staticRoutes = require("./routes/static")
-app.use(staticRoutes)
+ *************************/
+app.use(static)
+app.use("/", homeRoute)   // ➜ NUEVO: esto sirve el home
 
-// Home route (required for Assignment 1)
-app.get("/", (req, res) => {
-  res.render("index")   // Render views/index.ejs
-})
-
-/* ***************
- * Server startup
- *****************/
+/* ***********************
+ * Port & Host
+ *************************/
 const port = process.env.PORT
 const host = process.env.HOST
 
+/* ***********************
+ * Start Server
+ *************************/
 app.listen(port, () => {
-  console.log(`App listening on ${host}:${port}`)
+  console.log(`app listening on ${host}:${port}`)
 })
 
