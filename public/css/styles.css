@@ -1,167 +1,169 @@
-/* ================================
-   BASE STYLES — MOBILE FIRST
-   ================================ */
-
-/* Variables */
-:root {
-  --font-main: "Inter", system-ui, sans-serif;
-  --color-bg: #ffffff;
-  --color-text: #222222;
-  --color-accent: #0b66c3;
-  --color-light: #f4f6fa;
-  --max-width: 1200px;
-}
-
-/* Reset */
+/* ----------------------------------------
+   RESET & BASE STYLES
+---------------------------------------- */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+}
+
+:root {
+  --primary: #0b5ec2;
+  --primary-dark: #084a96;
+
+  --bg: #ffffff;
+  --surface: #f4f7fa;
+  --text: #1e1e1e;
+  --text-light: #555;
+
+  --radius: 12px;
+  --max-width: 1100px;
+
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 body {
-  font-family: var(--font-main);
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--bg);
+  color: var(--text);
   line-height: 1.5;
   padding-bottom: 3rem;
 }
 
-/* --------------------
+/* ----------------------------------------
    HEADER
-   -------------------- */
+---------------------------------------- */
 header {
+  background: var(--primary);
+  color: white;
   padding: 1rem;
   text-align: center;
-  border-bottom: 2px solid #e1e1e1;
-  background: var(--color-light);
-}
-header img {
-  width: 70px;
-}
-header h1 {
-  margin-top: 0.5rem;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--color-accent);
 }
 
-/* --------------------
-   NAV
-   -------------------- */
-nav {
-  background: var(--color-accent);
-  padding: 0.5rem;
+header h1 {
+  font-weight: 600;
+  font-size: 1.6rem;
 }
+
+/* ----------------------------------------
+   NAVIGATION
+---------------------------------------- */
+nav {
+  background: var(--surface);
+  padding: 0.8rem;
+}
+
 nav ul {
   list-style: none;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-  padding: 0.6rem 1rem;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 6px;
-  text-align: center;
-}
-nav a:hover {
-  background: rgba(255, 255, 255, 0.25);
+  justify-content: center;
+  gap: 1rem;
 }
 
-/* --------------------
-   HERO SECTION
-   -------------------- */
+nav a {
+  text-decoration: none;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+/* ----------------------------------------
+   HERO SECTION (HOME)
+---------------------------------------- */
 .hero {
   padding: 1rem;
   text-align: center;
 }
+
 .hero img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: var(--radius);
 }
+
 .hero-text {
   margin-top: 1rem;
 }
+
 .hero-text h2 {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-}
-.hero-text p {
-  font-size: 1rem;
-  opacity: 0.8;
+  font-size: 1.6rem;
+  font-weight: 700;
 }
 
-/* --------------------
-   FEATURES GRID
-   -------------------- */
+.hero-text p {
+  margin-top: 0.5rem;
+  color: var(--text-light);
+}
+
+/* ----------------------------------------
+   FEATURE CARDS
+---------------------------------------- */
 .features {
-  margin-top: 1.5rem;
   padding: 1rem;
   display: grid;
   gap: 1rem;
 }
-.feature {
-  background: var(--color-light);
+
+.feature-card {
+  background: var(--surface);
+  border-radius: var(--radius);
   padding: 1rem;
-  border-radius: 10px;
   text-align: center;
-  border: 1px solid #e2e6ef;
-}
-.feature img {
-  width: 60px;
-  margin-bottom: 0.5rem;
-}
-.feature h3 {
-  margin-bottom: 0.5rem;
-  font-size: 1.3rem;
-  color: var(--color-accent);
 }
 
-/* --------------------
+.feature-card img {
+  width: 100%;
+  border-radius: var(--radius);
+}
+
+.feature-card h3 {
+  margin-top: 0.6rem;
+  font-size: 1.3rem;
+}
+
+/* ----------------------------------------
    FOOTER
-   -------------------- */
+---------------------------------------- */
 footer {
   margin-top: 2rem;
-  text-align: center;
   padding: 1rem;
-  border-top: 2px solid #e1e1e1;
-  opacity: 0.8;
+  text-align: center;
+  color: var(--text-light);
 }
 
-/* ================================
-   DESKTOP — 900px+
-   ================================ */
+/* ----------------------------------------
+   DESKTOP BREAKPOINT
+---------------------------------------- */
 @media (min-width: 900px) {
+  
   nav ul {
-    flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
+    max-width: var(--max-width);
+    margin: auto;
   }
 
   .hero {
     display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 2rem;
     max-width: var(--max-width);
-    margin: 0 auto;
-  }
-
-  .hero-text {
+    margin: auto;
+    align-items: center;
     text-align: left;
-    width: 45%;
   }
 
   .hero img {
-    width: 45%;
+    width: 50%;
+  }
+
+  .hero-text {
+    width: 50%;
   }
 
   .features {
-    grid-template-columns: repeat(3, 1fr);
     max-width: var(--max-width);
-    margin: 2rem auto;
+    margin: auto;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
+
