@@ -8,6 +8,8 @@ router.get("/type/:classificationId", invController.buildByClassification);
 // Deliver vehicle detail view
 router.get("/detail/:invId", invController.buildDetailView);
 
+router.get("/", invController.buildManagement)
+
 module.exports = router;
 
 router.get("/throw-error", (req, res, next) => {

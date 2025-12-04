@@ -15,13 +15,14 @@ app.get("/", (req, res) => {
   res.render("index")
 })
 
+// Inventory routes
+const invRoute = require("./routes/inventoryRoute")
+app.use("/inv", invRoute)
+
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`)
 })
-
-const invRoute = require("./routes/inventory-route");
-app.use("/inv", invRoute);
 
 app.use(async (err, req, res, next) => {
   console.error(err);
