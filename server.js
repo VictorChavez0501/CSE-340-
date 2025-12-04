@@ -19,3 +19,16 @@ const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`)
 })
+
+const invRoute = require("./routes/inventory-route");
+app.use("/inv", invRoute);
+
+app.use(async (err, req, res, next) => {
+  console.error(err);
+  let nav = await utilities.getNav();
+  res.status(500).render("errors/error", {
+    title: "Error",
+    message: "Something went wrong",
+    nav
+  });
+});
