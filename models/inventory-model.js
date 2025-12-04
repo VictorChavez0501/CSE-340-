@@ -1,4 +1,4 @@
-const pool = require("../database/");
+const pool = require("../database/index")
 
 // Obtener todo el inventario
 async function getInventory() {
