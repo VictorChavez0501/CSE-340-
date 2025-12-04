@@ -16,8 +16,8 @@ app.get("/", (req, res) => {
 })
 
 // Inventory routes
-const invRoute = require("./routes/inventoryRoute")
-app.use("/inv", invRoute)
+const inventoryRoute = require("./routes/inventoryRoute");
+app.use("/inv", inventoryRoute);
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
