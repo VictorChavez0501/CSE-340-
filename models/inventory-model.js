@@ -1,29 +1,40 @@
-const pool = require("../database/index")
+// models/inventory-model.js
+const pool = require('../database/connection');
 
-// Obtener todo el inventario
-async function getInventory() {
-  return await pool.query("SELECT * FROM inventory ORDER BY inv_id");
-}
+/**
+ * Devuelve un vehículo por inv_id
+ * @param {number|string} invId
+ * @returns {Promise<object|null>}
+ */
+async function getVehicleById(invId) {
+  const sql = `
+    SELECT
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id
+    FROM inventory
+    WHERE inv_id = $1
+    LIMIT 1;
+  `;
+  const params = [invId];
 
-// Por clasificación
-async function getInventoryByClassification(classification_id) {
-  return await pool.query(
-    "SELECT * FROM inventory WHERE classification_id = $1",
-    [classification_id]
-  );
-}
-
-// Por ID
-async function getVehicleById(inv_id) {
-  const data = await pool.query(
-    "SELECT * FROM inventory WHERE inv_id = $1",
-    [inv_id]
-  );
-  return data.rows[0];
+  try {
+    const { rows } = await pool.query(sql, params);
+    return rows[0] || null;
+  } catch (error) {
+    console.error('Error en getVehicleById:', error);
+    throw error;
+  }
 }
 
 module.exports = {
-  getInventory,
-  getInventoryByClassification,
-  getVehicleById
+  getVehicleById,
 };
