@@ -1,125 +1,213 @@
-/* ============================
-   BASE STYLES - MOBILE FIRST
-=============================== */
-
-:root {
-  --dark: #1a1a1a;
-  --light: #ffffff;
-  --gray: #e8e8e8;
-  --accent: #017bff;
-  --max-width: 1100px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+/* ==========================
+   RESET BÁSICO
+========================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  background: var(--light);
-  color: var(--dark);
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f2f2f2;
+  color: #111;
 }
 
-main {
-  padding: 1rem;
-  max-width: var(--max-width);
+#wrapper {
+  max-width: 1100px;
   margin: 0 auto;
+  background: #fff;
+  border: 8px solid #00a8cc;
 }
 
-/* ============================
-   HERO SECTION
-=============================== */
-
-.hero h1 {
-  text-align: left;
-}
-
-.hero-content {
+/* ==========================
+   HEADER
+========================== */
+header {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem;
 }
 
-.hero-text h2 {
-  margin-bottom: 0.5rem;
+header h1 {
+  font-size: 2rem;
 }
 
-.hero-features {
-  list-style: disc;
-  padding-left: 1.5rem;
+header a {
+  text-decoration: none;
+  color: #111;
+  font-weight: bold;
 }
 
-.hero-img {
-  width: 100%;
-  max-width: 350px;
-  margin: 0 auto;
+/* ==========================
+   NAV
+========================== */
+nav {
+  background: #2b2b2b;
 }
 
-.btn-primary {
-  display: inline-block;
-  background: var(--accent);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  margin-top: 0.5rem;
+nav ul {
+  display: flex;
+  list-style: none;
+  justify-content: space-around;
+}
+
+nav li {
+  padding: 1rem;
+}
+
+nav a {
+  color: #fff;
   text-decoration: none;
   font-weight: bold;
 }
 
-/* ============================
-   REVIEWS SECTION
-=============================== */
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================
+   MAIN
+========================== */
+main {
+  padding: 1.5rem;
+}
+
+main h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* ==========================
+   HERO SECTION
+========================== */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.hero-text {
+  background: #fff;
+  border: 2px solid #00a8cc;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 280px;
+}
+
+.hero-text h2 {
+  color: #00a8cc;
+  margin-bottom: 0.5rem;
+}
+
+.hero-text ul {
+  list-style: none;
+  margin-bottom: 1rem;
+}
+
+.hero-text li {
+  color: #00a8cc;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.btn-own img {
+  width: 130px;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* ==========================
+   REVIEWS
+========================== */
+.reviews {
+  margin-bottom: 3rem;
+}
 
 .reviews h2 {
-  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 .reviews ul {
-  padding-left: 1.2rem;
+  list-style: disc;
+  margin-left: 1.5rem;
 }
 
-/* ============================
-   UPGRADES SECTION
-=============================== */
+.reviews li {
+  margin-bottom: 0.6rem;
+}
 
+/* ==========================
+   UPGRADES
+========================== */
 .upgrades h2 {
-  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
-.upgrades-grid {
+.upgrade-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
 
-.upgrade-card {
+.upgrade-item {
+  background: #d7ecf2;
+  border: 1px solid #555;
+  padding: 1rem;
   text-align: center;
 }
 
-.upgrade-card img {
-  width: 100%;
-  max-width: 120px;
-  display: block;
-  margin: 0 auto;
+.upgrade-item img {
+  width: 80px;
+  margin-bottom: 0.5rem;
 }
 
-/* ============================
-   LARGE SCREEN 
-=============================== */
+.upgrade-item a {
+  display: block;
+  color: #006080;
+  font-weight: bold;
+}
 
-@media (min-width: 900px) {
-  .hero-content {
-    flex-direction: row;
-    align-items: center;
+/* ==========================
+   FOOTER
+========================== */
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  border-top: 4px solid #00a8cc;
+}
+
+/* ==========================
+   RESPONSIVE MOBILE
+========================== */
+@media screen and (max-width: 768px) {
+
+  header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  nav ul {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
   }
 
   .hero-text {
-    flex: 1;
+    max-width: 100%;
   }
 
-  .hero-img {
-    flex: 1;
-    width: 90%;
-  }
-
-  .upgrades-grid {
-    grid-template-columns: repeat(4, 1fr);
+  .upgrade-grid {
+    grid-template-columns: 1fr;
   }
 }

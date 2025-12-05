@@ -1,9 +1,34 @@
 const inventoryModel = require('../models/inventory-model');
-const utilities = require('../utilities');
+const utilities = require('../utilities/index'); // 👈 IMPORTANTE
 
-async function buildVehicleDetailView(req, res, next) {
+// Vista principal de inventario
+async function buildManagement(req, res, next) {
   try {
-    const invId = req.params.invId;
+    const inventory = await inventoryModel.getInventory();
+
+    res.render('inventory/management', {
+      title: 'Inventory Management',
+      inventory
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+// Por clasificación (placeholder)
+async function buildByClassification(req, res, next) {
+  try {
+    const classificationId = req.params.classificationId;
+    res.send(`Clasificación ${classificationId} (pendiente de implementar)`);
+  } catch (error) {
+    next(error);
+  }
+}
+
+// ✅ DETALLE DE VEHÍCULO (YA USANDO utilities)
+async function buildDetailView(req, res, next) {
+  try {
+    const invId = req.params.inventoryId;
     const vehicle = await inventoryModel.getVehicleById(invId);
 
     if (!vehicle) {
@@ -12,12 +37,11 @@ async function buildVehicleDetailView(req, res, next) {
       return next(error);
     }
 
-    const detailHtml = utilities.buildVehicleDetailHTML(vehicle);
+    const vehicleHTML = utilities.buildVehicleDetailHTML(vehicle); // 👈 AQUÍ
 
     res.render('inventory/detail', {
       title: `${vehicle.inv_make} ${vehicle.inv_model}`,
-      vehicle,
-      detailHtml
+      vehicleHTML
     });
   } catch (error) {
     next(error);
@@ -25,5 +49,7 @@ async function buildVehicleDetailView(req, res, next) {
 }
 
 module.exports = {
-  buildVehicleDetailView
+  buildManagement,
+  buildByClassification,
+  buildDetailView
 };
