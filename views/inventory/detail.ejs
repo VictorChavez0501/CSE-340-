@@ -7,9 +7,55 @@
       <%- include("../partials/nav") %>
 
       <main>
-        <h1><%= title %></h1>
 
-        <%- vehicleHTML %>
+        <div class="vehicle-detail">
+
+          <!-- IMAGE -->
+          <div class="vehicle-image-wrapper">
+            <img 
+              src="<%= vehicle.inv_image %>" 
+              class="vehicle-full-img"
+              alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+          </div>
+
+          <!-- INFO -->
+          <div class="vehicle-info">
+            <div>
+              <h1 class="vehicle-title">
+                <%= vehicle.inv_year %> 
+                <%= vehicle.inv_make %> 
+                <%= vehicle.inv_model %>
+              </h1>
+
+              <p class="vehicle-price">
+                $<%= Number(vehicle.inv_price).toLocaleString() %>
+              </p>
+
+              <ul class="vehicle-specs">
+                <li><strong>Mileage:</strong> <%= Number(vehicle.inv_miles).toLocaleString() %> miles</li>
+                <li><strong>Color:</strong> <%= vehicle.inv_color %></li>
+                <li><strong>Fuel:</strong> <%= vehicle.inv_fuel_type || 'Gasoline' %></li>
+                <li><strong>Transmission:</strong> <%= vehicle.inv_transmission || 'Automatic' %></li>
+                <li><strong>Drive:</strong> <%= vehicle.inv_drive || 'FWD' %></li>
+                <li><strong>Stock:</strong> <%= vehicle.inv_id %></li>
+              </ul>
+
+              <div class="vehicle-description">
+                <h2>Description</h2>
+                <p><%= vehicle.inv_description %></p>
+              </div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="vehicle-actions">
+              <button class="btn-buy">Start My Purchase</button>
+              <button class="btn-contact">Contact Us</button>
+              <button class="btn-test">Schedule Test Drive</button>
+            </div>
+
+          </div>
+
+        </div>
 
       </main>
 
