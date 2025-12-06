@@ -32,17 +32,16 @@ async function buildDetailView(req, res, next) {
     const vehicle = await inventoryModel.getVehicleById(invId);
 
     if (!vehicle) {
-      const error = new Error('Vehículo no encontrado');
+      const error = new Error("Vehículo no encontrado");
       error.status = 404;
       return next(error);
     }
 
-    const vehicleHTML = utilities.buildVehicleDetailHTML(vehicle); // 👈 AQUÍ
-
-    res.render('inventory/detail', {
+    res.render("inventory/detail", {
       title: `${vehicle.inv_make} ${vehicle.inv_model}`,
-      vehicleHTML
+      vehicle  // ✅ AHORA SÍ SE ENVÍA "vehicle"
     });
+
   } catch (error) {
     next(error);
   }
