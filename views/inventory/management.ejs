@@ -1,11 +1,25 @@
 <h1>Inventory Management</h1>
 
-<ul>
-  <% inventory.forEach(vehicle => { %>
-    <li>
-      <a href="/inv/detail/<%= vehicle.inv_id %>">
-        <%= vehicle.inv_make %> <%= vehicle.inv_model %>
-      </a>
-    </li>
-  <% }) %>
-</ul>
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/header') %>
+  <%- include('../partials/nav') %>
+
+  <main class="container">
+    <h1>Inventory Management</h1>
+
+    <% if (message) { %>
+      <div class="flash <%= message.type %>"><%= message.content %></div>
+    <% } %>
+
+    <ul class="manage-links">
+      <li><a href="/inv/add-classification">Add Classification</a></li>
+      <li><a href="/inv/add-inventory">Add Inventory Item</a></li>
+    </ul>
+
+    <!-- opcional: mostrar inventario resumen -->
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

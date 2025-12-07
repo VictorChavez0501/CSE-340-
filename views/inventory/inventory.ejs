@@ -1,0 +1,54 @@
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/header') %>
+  <%- include('../partials/nav') %>
+
+  <main class="container">
+    <h1>Add Inventory Item</h1>
+
+    <% if (errors && errors.length) { %>
+      <ul class="errors">
+        <% errors.forEach(e => { %>
+          <li><%= e %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+    <form action="/inv/add-inventory" method="post" novalidate>
+      <label for="classificationList">Classification</label>
+      <div><%- classificationList %></div>
+
+      <label for="inv_make">Make</label>
+      <input name="inv_make" id="inv_make" type="text" required value="<%= inv_make %>">
+
+      <label for="inv_model">Model</label>
+      <input name="inv_model" id="inv_model" type="text" required value="<%= inv_model %>">
+
+      <label for="inv_year">Year</label>
+      <input name="inv_year" id="inv_year" type="text" pattern="^\d{4}$" required value="<%= inv_year %>">
+
+      <label for="inv_description">Description</label>
+      <textarea name="inv_description" id="inv_description" required><%= inv_description %></textarea>
+
+      <label for="inv_image">Image path</label>
+      <input name="inv_image" id="inv_image" type="text" required value="<%= inv_image %>">
+
+      <label for="inv_thumbnail">Thumbnail path</label>
+      <input name="inv_thumbnail" id="inv_thumbnail" type="text" required value="<%= inv_thumbnail %>">
+
+      <label for="inv_price">Price</label>
+      <input name="inv_price" id="inv_price" type="number" min="0" required value="<%= inv_price %>">
+
+      <label for="inv_miles">Miles</label>
+      <input name="inv_miles" id="inv_miles" type="number" min="0" required value="<%= inv_miles %>">
+
+      <label for="inv_color">Color</label>
+      <input name="inv_color" id="inv_color" type="text" required value="<%= inv_color %>">
+
+      <button type="submit">Add Vehicle</button>
+    </form>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

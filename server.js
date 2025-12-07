@@ -10,6 +10,23 @@ app.set("views", path.join(__dirname, "views"));
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
 
+const session = require('express-session');
+
+// session (flash messages)
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'change_this_secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 600000 } // 10 minutos
+}));
+
+// middleware para exponer mensajes a las vistas y limpiar
+app.use((req, res, next) => {
+  res.locals.message = req.session.message || null;
+  delete req.session.message;
+  next();
+});
+
 // Home route
 app.get("/", (req, res) => {
   res.render("index", { title: "Home | CSE Motors" });
