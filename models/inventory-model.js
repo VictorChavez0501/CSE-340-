@@ -81,14 +81,31 @@ async function getVehicleById(invId) {
   }
 }
 
+// Obtener inventario por clasificación
+async function getInventoryByClassificationId(classificationId) {
+  try {
+    const sql = `
+      SELECT *
+      FROM inventory
+      WHERE classification_id = $1
+      ORDER BY inv_make ASC
+    `
+    const result = await pool.query(sql, [classificationId])
+    return result.rows
+  } catch (error) {
+    console.error("getInventoryByClassificationId error:", error)
+    throw error
+  }
+}
+
 // =======================
 // EXPORTS ÚNICOS
 // =======================
 
 module.exports = {
-  getClassifications,
+  getInventory,
+  getVehicleById,
   addClassification,
   addInventoryItem,
-  getInventory,
-  getVehicleById
-};
+  getInventoryByClassificationId
+}
