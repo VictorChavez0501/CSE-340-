@@ -56,3 +56,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
+
+app.get("/test", (req, res) => {
+  res.send("Servidor funcionando correctamente ✅");
+});
