@@ -88,11 +88,26 @@ async function buildDetailView(req, res, next) {
   }
 }
 
+async function buildByClassification(req, res, next) {
+  try {
+    const classificationId = req.params.classificationId
+    const data = await inventoryModel.getInventoryByClassificationId(classificationId)
+
+    res.render("inventory/classification", {
+      title: "Vehicle Classification",
+      inventory: data
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   buildManagement,
   buildAddClassification,
   addClassification,
   buildAddInventory,
   addInventory,
-  buildDetailView
+  buildDetailView,
+  buildByClassification
 }
