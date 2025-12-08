@@ -1,3 +1,7 @@
+app.get("/ping", (req, res) => {
+  res.send("✅ Ping OK");
+});
+
 const express = require("express");
 require("dotenv").config();
 const app = express();
