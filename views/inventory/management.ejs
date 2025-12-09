@@ -1,11 +1,32 @@
 <h1>Inventory Management</h1>
 
-<ul>
+<% if (message && message.length > 0) { %>
+  <p class="message success"><%= message %></p>
+<% } %>
+
+<p><a href="/inv/add-classification">Add New Classification</a></p>
+<p><a href="/inv/add-inventory">Add New Inventory Item</a></p>
+
+<hr>
+
+<h2>Vehicle Inventory</h2>
+
+<table border="1" cellpadding="6">
+  <tr>
+    <th>ID</th>
+    <th>Make</th>
+    <th>Model</th>
+    <th>Action</th>
+  </tr>
+
   <% inventory.forEach(vehicle => { %>
-    <li>
-      <a href="/inv/detail/<%= vehicle.inv_id %>">
-        <%= vehicle.inv_make %> <%= vehicle.inv_model %>
-      </a>
-    </li>
+    <tr>
+      <td><%= vehicle.inv_id %></td>
+      <td><%= vehicle.inv_make %></td>
+      <td><%= vehicle.inv_model %></td>
+      <td>
+        <a href="/inv/detail/<%= vehicle.inv_id %>">View Details</a>
+      </td>
+    </tr>
   <% }) %>
-</ul>
+</table>

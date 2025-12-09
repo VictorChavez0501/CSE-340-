@@ -1,4 +1,8 @@
 // utilities/index.js
+
+// ============================
+// Formateo de moneda
+// ============================
 function formatCurrency(amount) {
   if (amount == null) return '';
   return new Intl.NumberFormat('en-US', {
@@ -8,12 +12,17 @@ function formatCurrency(amount) {
   }).format(Number(amount));
 }
 
+// ============================
+// Formateo de números
+// ============================
 function formatNumber(number) {
   if (number == null) return '';
   return new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(Number(number));
 }
 
-// Sanitize simple text (no HTML)
+// ============================
+// Sanitizar texto simple (sin HTML)
+// ============================
 function sanitizeText(input) {
   if (!input) return '';
   return String(input)
@@ -22,17 +31,15 @@ function sanitizeText(input) {
     .replace(/>/g, '&gt;');
 }
 
-/**
- * buildVehicleDetailHTML(vehicle)
- * Devuelve string HTML (seguro) con la información del vehículo.
- */
+// ============================
+// Construir HTML para detalle de vehículo
+// ============================
 function buildVehicleDetailHTML(vehicle) {
   if (!vehicle) return '';
 
   const price = formatCurrency(vehicle.inv_price);
   const miles = formatNumber(vehicle.inv_miles);
   const imageUrl = vehicle.inv_image || vehicle.inv_thumbnail || '/images/placeholder.png';
-
   const description = sanitizeText(vehicle.inv_description);
 
   return `
@@ -78,8 +85,49 @@ function buildVehicleDetailHTML(vehicle) {
   `;
 }
 
+// ============================
+// Construir Navbar
+// ============================
+async function getNav() {
+  // Devuelve HTML del navbar, puedes personalizarlo a tu gusto
+  return `
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/inv">Management</a></li>
+    </ul>
+  `;
+}
+
+// ============================
+// Construir select de clasificaciones
+// ============================
+const inventoryModel = require("../models/inventory-model");
+
+async function buildClassificationList(classification_id = null) {
+  const data = await inventoryModel.getClassifications();
+  let list =
+    '<select name="classification_id" id="classificationList" required>';
+  list += '<option value="">Choose a Classification</option>';
+
+  data.forEach((row) => {
+    list += `<option value="${row.classification_id}"`;
+    if (classification_id == row.classification_id) {
+      list += " selected";
+    }
+    list += `>${row.classification_name}</option>`;
+  });
+
+  list += "</select>";
+  return list;
+}
+
+// ============================
+// Exportar funciones
+// ============================
 module.exports = {
   formatCurrency,
   formatNumber,
   buildVehicleDetailHTML,
+  getNav,
+  buildClassificationList
 };
