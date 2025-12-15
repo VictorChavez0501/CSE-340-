@@ -8,8 +8,18 @@ const pool = new Pool({
   },
 });
 
-pool.connect()
-  .then(() => console.log("✅ Conectado a PostgreSQL (Render)"))
-  .catch(err => console.error("❌ Error conexión PostgreSQL:", err));
+/* ================================
+ * Manejo de errores del Pool
+ * ================================ */
+pool.on("connect", () => {
+  console.log("✅ Conectado a PostgreSQL (Render)");
+});
 
-module.exports = pool;
+pool.on("error", (err) => {
+  console.error("❌ Error inesperado en PostgreSQL", err);
+  process.exit(1);
+});
+
+module.exports = {
+  query: (text, params) => pool.query(text, params),
+};
