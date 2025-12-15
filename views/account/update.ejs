@@ -1,0 +1,105 @@
+<%- include("../partials/head") %>
+<body>
+  <%- include("../partials/header") %>
+  <%- include("../partials/nav") %>
+
+  <main class="container">
+    <h1><%= title %></h1>
+
+    <!-- ✅ MENSAJES -->
+    <% if (notice && notice.length > 0) { %>
+  <div class="flash success">
+    <%= notice[0] %>
+  </div>
+<% } %>
+
+    <!-- ✅ ERRORES -->
+    <% if (errors && errors.length) { %>
+      <ul class="error-list">
+        <% errors.forEach(error => { %>
+          <li><%= error %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+    <!-- ========================= -->
+    <!-- ✅ FORM 1: UPDATE ACCOUNT -->
+    <!-- ========================= -->
+
+    <form method="POST" action="/account/update">
+      <h2>Account Update</h2>
+
+      <label for="account_firstname">First Name</label>
+      <input
+        type="text"
+        name="account_firstname"
+        id="account_firstname"
+        required
+        value="<%= account.account_firstname %>"
+      >
+
+      <label for="account_lastname">Last Name</label>
+      <input
+        type="text"
+        name="account_lastname"
+        id="account_lastname"
+        required
+        value="<%= account.account_lastname %>"
+      >
+
+      <label for="account_email">Email</label>
+      <input
+        type="email"
+        name="account_email"
+        id="account_email"
+        required
+        value="<%= account.account_email %>"
+      >
+
+      <!-- ✅ ID oculto -->
+      <input
+        type="hidden"
+        name="account_id"
+        value="<%= account.account_id %>"
+      >
+
+      <button type="submit">Update Account</button>
+    </form>
+
+    <hr>
+
+    <!-- ========================= -->
+    <!-- ✅ FORM 2: CHANGE PASSWORD -->
+    <!-- ========================= -->
+
+    <form method="POST" action="/account/update-password">
+      <h2>Change Password</h2>
+
+      <label for="account_password">New Password</label>
+      <input
+        type="password"
+        name="account_password"
+        id="account_password"
+        required
+        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+      >
+
+      <p>
+        Password must be at least 8 characters, include one uppercase letter,
+        one lowercase letter, and one number.
+      </p>
+
+      <!-- ✅ ID oculto -->
+      <input
+        type="hidden"
+        name="account_id"
+        value="<%= account.account_id %>"
+      >
+
+      <button type="submit">Change Password</button>
+    </form>
+  </main>
+
+  <%- include("../partials/footer") %>
+</body>
+</html>

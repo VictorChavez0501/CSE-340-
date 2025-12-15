@@ -1,0 +1,37 @@
+<%- include("../partials/head") %>
+<body>
+  <%- include("../partials/header") %>
+  <%- include("../partials/nav") %>
+
+  <main class="container">
+
+    <% if (loggedin && account) { %>
+
+      <h2>Welcome <%= account.account_firstname %></h2>
+
+      <!-- ✅ LINK PARA ACTUALIZAR CUENTA (TODOS LOS USUARIOS) -->
+      <p>
+        <a href="/account/update/<%= account.account_id %>">
+          Update Account Information
+        </a>
+      </p>
+
+      <!-- ✅ SOLO PARA EMPLOYEE O ADMIN -->
+      <% if (account.account_type === "Employee" || account.account_type === "Admin") { %>
+        <h3>Inventory Management</h3>
+        <p>
+          <a href="/inv">Access Inventory Management</a>
+        </p>
+      <% } %>
+
+    <% } else { %>
+
+      <p>You must be logged in to view this page.</p>
+
+    <% } %>
+
+  </main>
+
+  <%- include("../partials/footer") %>
+</body>
+</html>

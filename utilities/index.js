@@ -121,6 +121,31 @@ async function buildClassificationList(classification_id = null) {
   return list;
 }
 
+const bcrypt = require("bcryptjs");
+
+/* ================================
+ * Compare plain password with hashed password
+ * ================================ */
+async function comparePassword(plainPassword, hashedPassword) {
+  try {
+    return await bcrypt.compare(plainPassword, hashedPassword);
+  } catch (error) {
+    return false;
+  }
+}
+
+/* ================================
+ * Hash password
+ * ================================ */
+async function hashPassword(password) {
+  try {
+    const saltRounds = 10;
+    return await bcrypt.hash(password, saltRounds);
+  } catch (error) {
+    throw new Error("Error hashing password");
+  }
+}
+
 // ============================
 // Exportar funciones
 // ============================
@@ -129,5 +154,7 @@ module.exports = {
   formatNumber,
   buildVehicleDetailHTML,
   getNav,
-  buildClassificationList
+  buildClassificationList,
+  comparePassword,
+  hashPassword
 };

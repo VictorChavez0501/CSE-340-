@@ -1,13 +1,15 @@
 const express = require("express");
 require("dotenv").config();
 const path = require("path");
-const session = require("express-session");  // <-- nuevo
-const flash = require("connect-flash");      // <-- nuevo
+const session = require("express-session");
+const flash = require("connect-flash");
+const cookieParser = require("cookie-parser");
+const auth = require("./middleware/auth");
 
 const app = express();
 
 // ============================
-// Middleware para parsear datos de forms
+// Middleware para parsear datos del formulario
 // ============================
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -17,14 +19,37 @@ app.use(express.json());
 // ============================
 app.use(
   session({
-    secret: "superSecretKey", // cambia esto por algo seguro
+    secret: "superSecretKey",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 60000 }, // duración de la sesión (ms)
+    cookie: { maxAge: 60000 },
   })
 );
 
+// ============================
+// Cookie parser (necesario para JWT)
+// ============================
+app.use(cookieParser());
+
+// ============================
+// Middleware de autenticación global (ahora sí después de session + cookies)
+// ============================
+
+// ============================
+// Variables globales para EJS
+// ============================
+app.use((req, res, next) => {
+  res.locals.loggedin = req.session.loggedin || false;
+  res.locals.account = req.session.account || null;
+  next();
+});
+
 app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.notice = req.flash("notice");
+  next();
+});
 
 // ============================
 // View engine
@@ -51,19 +76,33 @@ const inventoryRoute = require("./routes/inventoryRoute");
 app.use("/inv", inventoryRoute);
 
 // ============================
-// Middleware 404 (SIEMPRE al final)
+// Account routes
+// ============================
+const accountRoute = require("./routes/accountRoute");
+app.use("/account", accountRoute);
+
+// ============================
+// 404 Error handler
 // ============================
 app.use((req, res, next) => {
+
+  res.locals.loggedin = req.session?.loggedin || false;
+  res.locals.account = req.session?.account || null;
+
   res.status(404).render("errors/404", { 
     title: "404 - No encontrado" 
   });
 });
 
 // ============================
-// Middleware de errores (SIEMPRE al final)
+// 500 Error handler
 // ============================
 app.use((err, req, res, next) => {
   console.error(err);
+
+  res.locals.loggedin = req.session?.loggedin || false;
+  res.locals.account = req.session?.account || null;
+
   res.status(500).render("errors/500", {
     title: "500 - Error del servidor",
     message: "Ocurrió un error interno en el servidor"
@@ -77,3 +116,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
+

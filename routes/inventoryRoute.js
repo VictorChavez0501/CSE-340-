@@ -1,32 +1,66 @@
 const express = require("express");
 const router = new express.Router();
 const invController = require("../controllers/inventoryController");
+const auth = require("../middleware/auth");
 
 // ============================
-// Rutas principales
+// ✅ INVENTORY MANAGEMENT (PROTEGIDO)
 // ============================
-router.get("/", invController.buildManagement);
-
-// Por clasificación
-router.get("/type/:classificationId", invController.buildByClassification);
-
-// Detalle de vehículo
-router.get("/detail/:inventoryId", invController.buildDetailView);
-
-// ============================
-// Task 2 - Agregar clasificación
-// ============================
-// Mostrar formulario
-router.get("/add-classification", invController.buildAddClassification);
-// Procesar formulario
-router.post("/add-classification", invController.addClassification);
+router.get(
+  "/",
+  auth.checkLogin,
+  auth.checkEmployeeOrAdmin,
+  invController.buildManagement
+);
 
 // ============================
-// Task 3 - Agregar inventario
+// ✅ ADD CLASSIFICATION (PROTEGIDO)
 // ============================
-// Mostrar formulario
-router.get("/add-inventory", invController.buildAddInventory);
-// Procesar formulario
-router.post("/add-inventory", invController.addInventory);
+router.get(
+  "/add-classification",
+  auth.checkLogin,
+  auth.checkEmployeeOrAdmin,
+  invController.buildAddClassification
+);
+
+router.post(
+  "/add-classification",
+  auth.checkLogin,
+  auth.checkEmployeeOrAdmin,
+  invController.addClassification
+);
+
+// ============================
+// ✅ ADD INVENTORY (PROTEGIDO)
+// ============================
+router.get(
+  "/add-inventory",
+  auth.checkLogin,
+  auth.checkEmployeeOrAdmin,
+  invController.buildAddInventory
+);
+
+router.post(
+  "/add-inventory",
+  auth.checkLogin,
+  auth.checkEmployeeOrAdmin,
+  invController.addInventory
+);
+
+// ============================
+// ✅ RUTAS PÚBLICAS (NO PROTEGIDAS)
+// ============================
+
+// Por clasificación (pública)
+router.get(
+  "/type/:classificationId",
+  invController.buildByClassification
+);
+
+// Detalle de vehículo (pública)
+router.get(
+  "/detail/:inventoryId",
+  invController.buildDetailView
+);
 
 module.exports = router;
