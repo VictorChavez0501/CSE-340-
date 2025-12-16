@@ -48,10 +48,22 @@
 
             <!-- BUTTONS -->
             <div class="vehicle-actions">
-              <button class="btn-buy">Start My Purchase</button>
-              <button class="btn-contact">Contact Us</button>
-              <button class="btn-test">Schedule Test Drive</button>
-            </div>
+  <button class="btn-buy">Start My Purchase</button>
+  <button class="btn-contact">Contact Us</button>
+  <button class="btn-test">Schedule Test Drive</button>
+
+  <% if (loggedin) { %>
+    <form action="/favorites/add/<%= vehicle.inv_id %>" method="POST" style="margin-top: 1rem;">
+      <button type="submit" class="btn-favorite">
+        ⭐ Add to Favorites
+      </button>
+    </form>
+  <% } else { %>
+    <p style="margin-top: 1rem;">
+      <a href="/account/login">Login</a> to save this vehicle to your favorites.
+    </p>
+  <% } %>
+</div>
 
           </div>
 

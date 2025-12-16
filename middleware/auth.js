@@ -5,25 +5,16 @@ require("dotenv").config();
  *  VERIFICAR LOGIN POR JWT
  * ================================ */
 function checkLogin(req, res, next) {
-  const token = req.cookies.jwt;
+  console.log("🔐 COOKIE JWT:", req.cookies.jwt)
+  console.log("👤 RES.LOCALS.LOGGEDIN:", res.locals.loggedin)
+  console.log("👤 RES.LOCALS.ACCOUNT:", res.locals.account)
 
-  if (!token) {
-    req.flash("notice", "⚠️ Debes iniciar sesión primero.");
-    return res.redirect("/account/login");
+  if (!res.locals.loggedin) {
+    console.log("⛔ NO LOGUEADO → REDIRECT LOGIN")
+    return res.redirect("/account/login")
   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-
-    req.account = decoded;
-    res.locals.loggedin = true;
-    res.locals.account = decoded;
-
-    next();
-  } catch (err) {
-    req.flash("notice", "⚠️ Sesión inválida. Inicia sesión nuevamente.");
-    return res.redirect("/account/login");
-  }
+  next()
 }
 
 /* ================================

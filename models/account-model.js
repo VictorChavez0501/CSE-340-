@@ -6,11 +6,21 @@ const bcrypt = require("bcryptjs");
  * ================================ */
 async function getAccountByEmail(account_email) {
   try {
-    const sql = "SELECT * FROM account WHERE account_email = $1";
-    const result = await pool.query(sql, [account_email]);
-    return result.rows[0];
+    const sql = `
+      SELECT
+        account_id,
+        account_firstname,
+        account_lastname,
+        account_email,
+        account_password,
+        account_type
+      FROM account
+      WHERE account_email = $1
+    `
+    const result = await pool.query(sql, [account_email])
+    return result.rows[0]
   } catch (error) {
-    return error.message;
+    return null
   }
 }
 

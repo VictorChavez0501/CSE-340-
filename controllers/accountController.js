@@ -19,39 +19,53 @@ async function buildLogin(req, res) {
  *  PROCESS LOGIN
  * ================================ */
 async function accountLogin(req, res) {
-  let nav = await utilities.getNav();
-  const { account_email, account_password } = req.body;
+  let nav = await utilities.getNav()
+  const { account_email, account_password } = req.body
 
-  const accountData = await accountModel.getAccountByEmail(account_email);
+  const accountData = await accountModel.getAccountByEmail(account_email)
+
+console.log("EMAIL:", account_email)
+console.log("PASSWORD INGRESADA:", account_password)
+console.log("HASH DB:", accountData.account_password)
 
   if (!accountData) {
-    req.flash("notice", "❌ Email o contraseña incorrectos.");
-    return res.redirect("/account/login");
+    req.flash("notice", "❌ Email o contraseña incorrectos.")
+    return res.render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+    })
   }
 
   const passwordMatch = await utilities.comparePassword(
     account_password,
     accountData.account_password
-  );
+  )
 
   if (!passwordMatch) {
-    req.flash("notice", "❌ Email o contraseña incorrectos.");
-    return res.redirect("/account/login");
+    req.flash("notice", "❌ Email o contraseña incorrectos.")
+    return res.render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+    })
   }
 
   // ✅ LOGIN CORRECTO
-  req.session.loggedin = true;
-  req.session.account = accountData;
-
-  // 🔐 JWT
   const accessToken = jwt.sign(
-    accountData,
+    {
+      account_id: accountData.account_id,
+      account_firstname: accountData.account_firstname,
+      account_lastname: accountData.account_lastname,
+      account_email: accountData.account_email,
+      account_type: accountData.account_type,
+    },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "1h" }
-  );
+  )
 
-  res.cookie("jwt", accessToken, { httpOnly: true });
-  res.redirect("/account/");
+  res.cookie("jwt", accessToken, { httpOnly: true })
+  return res.redirect("/account/")
 }
 
 /* ================================

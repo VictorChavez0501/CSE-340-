@@ -117,3 +117,5 @@ app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
 
+const favoritesRoute = require("./routes/favoritesRoute");
+app.use("/favorites", favoritesRoute);
