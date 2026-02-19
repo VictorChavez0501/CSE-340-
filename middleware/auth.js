@@ -1,39 +1,33 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-/* ================================
- *  VERIFICAR LOGIN POR JWT
- * ================================ */
-function checkLogin(req, res, next) {
-  console.log("🔐 COOKIE JWT:", req.cookies.jwt)
-  console.log("👤 RES.LOCALS.LOGGEDIN:", res.locals.loggedin)
-  console.log("👤 RES.LOCALS.ACCOUNT:", res.locals.account)
+function checkJWTToken(req, res, next) {
+  const token = req.cookies?.jwt;
 
-  if (!res.locals.loggedin) {
-    console.log("⛔ NO LOGUEADO → REDIRECT LOGIN")
-    return res.redirect("/account/login")
-  }
+  console.log("🔐 COOKIE JWT:", token);
 
-  next()
-}
-
-/* ================================
- *  VERIFICAR EMPLOYEE O ADMIN
- * ================================ */
-function checkEmployeeOrAdmin(req, res, next) {
-  if (
-    req.account &&
-    (req.account.account_type === "Employee" ||
-      req.account.account_type === "Admin")
-  ) {
+  if (!token) {
+    res.locals.loggedin = false;
+    res.locals.account = null;
     return next();
   }
 
-  req.flash("notice", "⛔ Acceso denegado. No tienes permisos.");
-  return res.redirect("/account/login");
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    res.locals.loggedin = true;
+    res.locals.account = decoded;
+
+    console.log("👤 RES.LOCALS.LOGGEDIN:", res.locals.loggedin);
+    console.log("👤 RES.LOCALS.ACCOUNT:", res.locals.account);
+
+    next();
+  } catch (err) {
+    console.error("❌ JWT inválido:", err.message);
+    res.locals.loggedin = false;
+    res.locals.account = null;
+    next();
+  }
 }
 
-module.exports = {
-  checkLogin,
-  checkEmployeeOrAdmin,
-};
+module.exports = { checkJWTToken };
