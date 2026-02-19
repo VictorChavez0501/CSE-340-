@@ -9,17 +9,22 @@ const auth = require("./middleware/auth");
 const app = express();
 
 // ============================
+// ✅ NECESARIO PARA RENDER (COOKIES JWT)
+// ============================
+app.set("trust proxy", 1);
+
+// ============================
 // Middleware para parsear datos del formulario
 // ============================
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // ============================
-// Configuración de sesiones y flash
+// Configuración de sesiones (solo para flash)
 // ============================
 app.use(
   session({
-    secret: "superSecretKey",
+    secret: process.env.SESSION_SECRET || "superSecretKey",
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 60000 },
@@ -27,23 +32,18 @@ app.use(
 );
 
 // ============================
-// Cookie parser (necesario para JWT)
+// Cookie parser (JWT)
 // ============================
 app.use(cookieParser());
 
 // ============================
-// Middleware de autenticación global (ahora sí después de session + cookies)
+// 🔐 Middleware JWT GLOBAL (OBLIGATORIO)
 // ============================
+app.use(auth.checkJWTToken);
 
 // ============================
-// Variables globales para EJS
+// Flash messages
 // ============================
-app.use((req, res, next) => {
-  res.locals.loggedin = req.session.loggedin || false;
-  res.locals.account = req.session.account || null;
-  next();
-});
-
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -65,8 +65,10 @@ app.use(express.static(path.join(__dirname, "public")));
 // ============================
 // Home route
 // ============================
-app.get("/", (req, res) => {
-  res.render("index", { title: "Home | CSE Motors" });
+app.get("/", async (req, res) => {
+  res.render("index", {
+    title: "Home | CSE Motors",
+  });
 });
 
 // ============================
@@ -82,15 +84,17 @@ const accountRoute = require("./routes/accountRoute");
 app.use("/account", accountRoute);
 
 // ============================
+// Favorites routes
+// ============================
+const favoritesRoute = require("./routes/favoritesRoute");
+app.use("/favorites", favoritesRoute);
+
+// ============================
 // 404 Error handler
 // ============================
-app.use((req, res, next) => {
-
-  res.locals.loggedin = req.session?.loggedin || false;
-  res.locals.account = req.session?.account || null;
-
-  res.status(404).render("errors/404", { 
-    title: "404 - No encontrado" 
+app.use((req, res) => {
+  res.status(404).render("errors/404", {
+    title: "404 - Página no encontrada",
   });
 });
 
@@ -99,13 +103,9 @@ app.use((req, res, next) => {
 // ============================
 app.use((err, req, res, next) => {
   console.error(err);
-
-  res.locals.loggedin = req.session?.loggedin || false;
-  res.locals.account = req.session?.account || null;
-
   res.status(500).render("errors/500", {
     title: "500 - Error del servidor",
-    message: "Ocurrió un error interno en el servidor"
+    message: "Ocurrió un error interno en el servidor",
   });
 });
 
@@ -116,6 +116,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
-
-const favoritesRoute = require("./routes/favoritesRoute");
-app.use("/favorites", favoritesRoute);
