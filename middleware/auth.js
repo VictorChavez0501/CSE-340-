@@ -1,10 +1,11 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+/* ================================
+ *  VERIFY JWT TOKEN
+ * ================================ */
 function checkJWTToken(req, res, next) {
   const token = req.cookies?.jwt;
-
-  console.log("🔐 COOKIE JWT:", token);
 
   if (!token) {
     res.locals.loggedin = false;
@@ -18,16 +19,43 @@ function checkJWTToken(req, res, next) {
     res.locals.loggedin = true;
     res.locals.account = decoded;
 
-    console.log("👤 RES.LOCALS.LOGGEDIN:", res.locals.loggedin);
-    console.log("👤 RES.LOCALS.ACCOUNT:", res.locals.account);
-
-    next();
+    return next();
   } catch (err) {
-    console.error("❌ JWT inválido:", err.message);
+    console.error("JWT invalid:", err.message);
     res.locals.loggedin = false;
     res.locals.account = null;
-    next();
+    return next();
   }
 }
 
-module.exports = { checkJWTToken };
+/* ================================
+ *  VERIFY USER IS LOGGED IN
+ * ================================ */
+function checkLogin(req, res, next) {
+  if (!res.locals.loggedin) {
+    return res.redirect("/account/login");
+  }
+  return next();
+}
+
+/* ================================
+ *  VERIFY EMPLOYEE OR ADMIN
+ * ================================ */
+function checkEmployeeOrAdmin(req, res, next) {
+  if (
+    res.locals.account &&
+    (res.locals.account.account_type === "Employee" ||
+     res.locals.account.account_type === "Admin")
+  ) {
+    return next();
+  }
+
+  req.flash("notice", "Access denied.");
+  return res.redirect("/account/login");
+}
+
+module.exports = {
+  checkJWTToken,
+  checkLogin,
+  checkEmployeeOrAdmin,
+};
